@@ -3,35 +3,63 @@
 	<head>
 		<script type="text/javascript">
 			function main(){
-				var set = [19, 19, 19, 2, 18, 3];
+				var set = document.getElementById("input").value.split(" ").map(Number);
 				var sum = 40;
 
+				document.getElementById('infoBox').innerHTML = "";
+				document.getElementById('leftover').innerHTML = "";
+				//console.log(set);
+				if(document.getElementById("input").value.length < 1){
+					document.getElementById('infoBox').innerHTML = "<span class=\"error\">Your input is empty, please enter some qualities separated by spaces. Exiting.<span><br/>";
+					return;
+				}
+
+				var r = 0;
+				document.getElementById('results').innerHTML = "";
+
 				for (var i = set.length - 1; i >= 0; i--) {
+					if (set[i] == NaN) {
+						document.getElementById('infoBox').innerHTML = "<span class=\"error\">There's something funky (like a word or some punctuation) in the input box, check your input. Exiting.<span><br/>";
+						return;
+					}
 					if(set[i] > 20) {
-						console.log("You can't have a flask with more than 20% quality, check your input.");
+						document.getElementById('infoBox').innerHTML = "<span class=\"error\">You can't have a flask with more than 20% quality, check your input. Exiting.<span><br/>";
 						return;
 					}
 
 					if(set[i] < 0) {
-						console.log("You can't have a flask with less than 0% quality, check your input.");
+						document.getElementById('infoBox').innerHTML = "<span class=\"error\">You can't have a flask with less than 20% quality, check your input. Exiting.<span><br/>";
 						return;
 					}
 					if(set[i] == 20) {
-						console.log(20 + " ! 20% quality flasks can be vendored for a prism by themselves");
+						document.getElementById('infoBox').innerHTML = "<span class=\"info\">20% quality flasks can be vendored for a bauble/prism by themselves. <span><br/><br/>";
+						r++;
+						document.getElementById('numResults').innerHTML = "<strong>Number of solutions:</strong> " + r;
+						set.splice(i, 1);
+						document.getElementById('results').innerHTML = document.getElementById('results').innerHTML + "20%<br/>";
 					}
 				}
 
 				if(set.reduce((a, b) => a + b, 0) < 40) {
-					console.log("all your input qualities add up to less than 40%, so unless you have a single 20% flask, you won't be able to vendor for a prism")
+					document.getElementById('infoBox').innerHTML += "<span class=\"error\">all your input qualities (excluding 20% inputs) add up to less than 40%, so you won't be able to vendor for a prism/bauble no matter how much searching you do</span>"
+					return;
 				};
 
-				var r = 0;
-				document.getElementById('numResults').innerHTML = "Number of solutions: 0";
 				while(calc(0, set, sum) == true){
 					r++;
-					document.getElementById('numResults').innerHTML = "Number of solutions: " + r;
+					document.getElementById('numResults').innerHTML = "<strong>Number of currency:</strong> " + r;
 					document.getElementById('results').innerHTML = document.getElementById('results').innerHTML + "<br/>";
 				};
+
+				document.getElementById('leftover').innerHTML = document.getElementById('leftover').innerHTML + "<strong>Items left over: </strong>";
+				if(set.length == 0){
+					document.getElementById('leftover').innerHTML += "None!"
+				} else {
+					for (var i = set.length - 1; i >= 0; i--) {
+						document.getElementById('leftover').innerHTML = document.getElementById('leftover').innerHTML + set[i] + "% "
+					}
+				}
+				
 			}
 
 			function calc(start, set, sum) {
@@ -41,7 +69,11 @@
 
 				if(calc(start + 1, set, sum - set[start])) {
 					console.log(set[start]);
-					document.getElementById('results').innerHTML = document.getElementById('results').innerHTML + set[start] + "%  ";
+					if (set[start] < 10) {
+						document.getElementById('results').innerHTML = document.getElementById('results').innerHTML + "&nbsp;" + set[start] + "%  ";
+					} else {
+						document.getElementById('results').innerHTML = document.getElementById('results').innerHTML + set[start] + "%  ";
+					}
 					set.splice(start, 1);
 					return true;
 				}
@@ -53,11 +85,42 @@
         		return false;
 			}
 		</script>
-		<title>Quality | Rokco.org</title>
+		<title>PoE Quality Vendor</title>
+        <link href="skeleton.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="styles.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href='https://fonts.googleapis.com/css?family=Quattrocento:400,700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Muli:400,700' rel='stylesheet' type='text/css'>
 	</head>
 	<body id="body">
-		<button onclick="main()">Click</button>
-		<dir id="numResults"></dir>
-		<dir id="results"></dir>
+		<header>
+            <nav class="row">
+                <div class="four columns" id="logo">
+                    <h1>PoE</h1>
+                    <h1>Quality</h1>
+                    <h1>Vendor</h1>
+                </div>
+                <div class="eight columns" id="desc">
+                    <p>calculate efficient ways to vendor flasks and gems in Path of Exile so you never oversell</p>
+
+                    <p>input all the qualities you are looking to sell separated by spaces</p>
+
+                    <p>searching for combinations is called the Subset Sum problem, and is actually NP-complete</p>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+        	<div id="inputBox">
+        		<textarea id="input" placeholder="10 13 7 9 4 18"></textarea>
+				<button class="button" onclick="main()">Click</button>				
+			</div>
+			<div id="resultsBox">
+				<div id="numResults"></div>
+				<div id="results"></div>
+				<div id="leftover"></div>
+			</div>
+			<div id="infoBox">
+					
+			</div>
+		</div>
 	</body>
 </html>

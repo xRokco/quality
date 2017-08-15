@@ -1,0 +1,127 @@
+body {
+    font-family: 'Muli', sans-serif;
+    margin: 0px;
+}
+
+nav {
+    margin: 0px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 45%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    margin: 0px;
+    font-family: 'Quattrocento', sans-serif;
+    font-weight: 400;
+}
+
+#logo h1 {
+    font-size: 6.0rem;
+    text-align: right;
+    margin-bottom: 0;
+}
+
+p {
+    font-family: 'Muli', sans-serif;  
+}
+
+a {
+    color: #1EAEDB;
+    font-family: 'Muli', sans-serif; 
+}
+
+#desc {
+    margin-top: 10px;
+}
+
+#input {
+    width: 70%;
+    min-height: 40px;
+    display: inline;
+}
+
+button {
+    width: 25%;
+    height: 40px;
+    display: inline;
+    float: right
+}
+
+#inputBox {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#resultsBox {
+    background-color: #EEE;
+    width: 48%;
+    min-height: 200px;
+    border: 1px solid black;
+    display: inline;
+    float: left;
+    padding: 5px;
+}
+
+#results {
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+#infoBox {
+    background-color: #EEE;
+    width: 48%;
+    min-height: 200px;
+    border: 1px solid black;
+    float: right;
+    display: inline;
+    padding: 5px;
+}
+
+.error {
+    color: red;
+}
+
+.info {
+    color: darkorange;
+}
+
+@media (max-width: 1300px) {
+    nav {
+        width: 100%;
+    }
+
+    #desc p {
+        margin-right: 10%;
+    }
+}
+
+@media (max-width: 850px) {
+    #infoBox {
+        display: block;
+        float: none;
+        width: 100%;
+    }
+
+    #resultsBox {
+        display: block;
+        float: none;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 549px) {
+    #logo h1 {
+        text-align: center;
+    }
+
+    #desc p {
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+}
+
