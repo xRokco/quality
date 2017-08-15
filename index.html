@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+			function main(){
+				var set = [19, 19, 19, 2, 18, 3];
+				var sum = 40;
+
+				for (var i = set.length - 1; i >= 0; i--) {
+					if(set[i] > 20) {
+						console.log("You can't have a flask with more than 20% quality, check your input.");
+						return;
+					}
+
+					if(set[i] < 0) {
+						console.log("You can't have a flask with less than 0% quality, check your input.");
+						return;
+					}
+					if(set[i] == 20) {
+						console.log(20 + " ! 20% quality flasks can be vendored for a prism by themselves");
+					}
+				}
+
+				if(set.reduce((a, b) => a + b, 0) < 40) {
+					console.log("all your input qualities add up to less than 40%, so unless you have a single 20% flask, you won't be able to vendor for a prism")
+				};
+
+				var r = 0;
+				document.getElementById('numResults').innerHTML = "Number of solutions: 0";
+				while(calc(0, set, sum) == true){
+					r++;
+					document.getElementById('numResults').innerHTML = "Number of solutions: " + r;
+					document.getElementById('results').innerHTML = document.getElementById('results').innerHTML + "<br/>";
+				};
+			}
+
+			function calc(start, set, sum) {
+				if (start >= set.length) {
+					return(sum == 0);
+				}
+
+				if(calc(start + 1, set, sum - set[start])) {
+					console.log(set[start]);
+					document.getElementById('results').innerHTML = document.getElementById('results').innerHTML + set[start] + "%  ";
+					set.splice(start, 1);
+					return true;
+				}
+
+				if (calc(start + 1, set, sum)) {
+            		return true;
+        		}
+
+        		return false;
+			}
+		</script>
+		<title>Quality | Rokco.org</title>
+	</head>
+	<body id="body">
+		<button onclick="main()">Click</button>
+		<dir id="numResults"></dir>
+		<dir id="results"></dir>
+	</body>
+</html>
